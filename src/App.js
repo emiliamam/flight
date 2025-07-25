@@ -1,12 +1,9 @@
 import React from 'react';
 
 import { CountryPicker, Chart, MapComponent, Card, PunctualityDashboard } from './components';
-import { fetchData } from './api/';
 import styles from './App.module.css';
 import 'leaflet/dist/leaflet.css';
 
-
-import image from './images/image.png';
 
 class App extends React.Component {
   state = {
@@ -20,7 +17,7 @@ class App extends React.Component {
   }
   async componentDidMount() {
     try {
-      const response = await fetch('http://localhost:8000/get_airports');
+      const response = await fetch('/get_airports');
       const airports = await response.json();
 
       console.log(airports, 'airports')
@@ -55,13 +52,13 @@ const { data, country, activePage } = this.state;
       {activePage === 'Статистика' && <CountryPicker handleCountryChange={this.handleCountryChange} />}
       {activePage === 'Аналитика' && <Chart data={data} country={country} />}
       {activePage === 'Карта' && <MapComponent airports={data} />}
-      {/* </main> */}
+
       <footer className={styles.footer}>
-  <div className={styles.footerContent}>
-    <p>&copy; {new Date().getFullYear()} Рейтинг пунктуальности</p>
-    <p>Разработано студентами РУТ </p>
-  </div>
-</footer>
+        <div className={styles.footerContent}>
+          <p>&copy; {new Date().getFullYear()} Рейтинг пунктуальности</p>
+          <p>Разработано студентами РУТ </p>
+        </div>
+      </footer>
       </div>
       
     );

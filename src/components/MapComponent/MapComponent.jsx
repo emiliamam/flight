@@ -3,7 +3,6 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 
 const MapComponent = ({ airports = [] }) => {
-  // Функция цвета по количеству вылетов
   const getMarkerColor = (airport) => {
     const flights = airport['Кол-во вылетов'] ?? 0;
     if (flights > 1000) return 'red';
@@ -52,7 +51,6 @@ const MapComponent = ({ airports = [] }) => {
         })}
       </MapContainer>
   
-      {/* 📌 Легенда */}
       <div
         style={{
           position: 'absolute',

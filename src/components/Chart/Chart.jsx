@@ -9,112 +9,23 @@ const Analytics = () => {
   const [top3Data, setTop3Data] = useState([]);
   const [directionData, setDirectionData] = useState([]);
   const [punctualityData, setPunctualityData] = useState([]);
-  const [displayCount, setDisplayCount] = useState(10);
 
   useEffect(() => {
-    fetch('http://localhost:8000/get_top3')
+    fetch('/api/get_top3')
       .then(res => res.json())
       .then(data => setTop3Data(data))
       .catch(console.error);
 
-    fetch('http://localhost:8000/get_all_direction')
+    fetch('/api/get_all_direction')
       .then(res => res.json())
       .then(data => setDirectionData(data))
       .catch(console.error);
 
-    fetch('http://localhost:8000/get_airline_punctuality')
+    fetch('/api/get_airline_punctuality')
       .then(res => res.json())
       .then(data => setPunctualityData(data))
       .catch(console.error);
   }, []);
-
-  console.log(top3Data, 'top3Data')
-  console.log(directionData, 'directionData')
-  console.log(punctualityData, 'punctualityData')
-
-  // 1. Топ 3 авиакомпании - Bar chart
-  // Топ 3 авиакомпании
-const top3ChartData = {
-  labels: top3Data.map(a => a.airline_name || a['Авиакомпания']),
-  datasets: [
-    {
-      label: 'Пунктуальность вылета',
-      backgroundColor: 'rgba(75,192,192,0.6)',
-      data: top3Data.map(a => a.rating_departure ?? a['Отправление']),
-    },
-    {
-      label: 'Пунктуальность прилёта',
-      backgroundColor: 'rgba(153,102,255,0.6)',
-      data: top3Data.map(a => a.rating_arrival ?? a['Прибытие']),
-    },
-  ],
-};
-
-// Направления - ограничим топ-10
-const topDirections = [...directionData]
-  .sort((a, b) => b.total_flights - a.total_flights)
-  .slice(0, 10);
-
-  const displayedDirections = directionData.slice(0, displayCount);
-
-  const directionsLabels = displayedDirections.map(d => `${d.airport1} → ${d.airport2}`);
-  const directionsCounts = displayedDirections.map(d => d.total_flights);
-  
-  const directionsChartData = {
-    labels: directionsLabels,
-    datasets: [{
-      label: 'Количество рейсов',
-      data: directionsCounts,
-      backgroundColor: directionsLabels.map(() =>
-        `hsl(${Math.floor(Math.random() * 360)}, 70%, 70%)`
-      ),
-    }],
-  };
-
-  const directionsChartOptions = {
-    responsive: true,
-    plugins: {
-      tooltip: {
-        callbacks: {
-          label: context => {
-            const idx = context.dataIndex;
-            const item = displayedDirections[idx];
-            return [
-              `Рейсов: ${item.total_flights}`,
-              `Пунктуальность: ${item.on_time_percentage ?? 'н/д'}%`
-            ];
-          }
-        }
-      },
-      legend: { display: false }
-    }
-  };
-  
-// Пунктуальность - если даты нет, просто покажем среднюю пунктуальность по авиакомпаниям
-const airlines = [...new Set(punctualityData.map(d => d['Авиакомпания']))];
-
-const punctualityChartData = {
-  labels: airlines,
-  datasets: [
-    {
-      label: 'Пунктуальность отправления (%)',
-      data: airlines.map(airline => {
-        const rec = punctualityData.find(d => d['Авиакомпания'] === airline);
-        return rec ? rec['Отправление'] : 0;
-      }),
-      backgroundColor: 'rgba(75,192,192,0.6)',
-    },
-    {
-      label: 'Пунктуальность прибытия (%)',
-      data: airlines.map(airline => {
-        const rec = punctualityData.find(d => d['Авиакомпания'] === airline);
-        return rec ? rec['Прибытие'] : 0;
-      }),
-      backgroundColor: 'rgba(153,102,255,0.6)',
-    },
-  ],
-};
-
 
 
 return (
@@ -193,10 +104,10 @@ return (
     {activeTab === 'top3' && (<DelayCharts />
     )}
 
-{activeTab === 'directions' && ( <DirectionsCharts directionData={directionData} />
+{activeTab === 'directions' && ( <DirectionsCharts/>
 )}
     {activeTab === 'punctuality' && (
-      <PunctualityChartWithTable data={punctualityData}/>
+      <PunctualityChartWithTable />
     )}
   </div>
 );
