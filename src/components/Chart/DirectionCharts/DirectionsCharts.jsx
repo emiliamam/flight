@@ -1,15 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Pie } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-  Title,
-} from 'chart.js';
 
-
-const DirectionsChart = ({ directionData }) => {
+const DirectionsChart = () => {
   const [displayCount, setDisplayCount] = useState(10);
 
   const sortedDirections = useMemo(() => {
@@ -48,7 +40,6 @@ const DirectionsChart = ({ directionData }) => {
         />
         <div>{displayCount} направлений</div>
       </div>
-      {/* 🔹 Таблица */}
       <div style={{ overflowX: 'auto', marginBottom: 30 }}>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead style={{ backgroundColor: '#f0f0f0' }}>
@@ -74,10 +65,6 @@ const DirectionsChart = ({ directionData }) => {
         </table>
       </div>
 
-      {/* 🔹 Ползунок */}
-    
-
-      {/* 🔹 Pie chart */}
       <div style={{ height: 500 }}>
         <Pie
           data={pieData}
