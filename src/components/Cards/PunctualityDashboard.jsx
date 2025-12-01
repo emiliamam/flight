@@ -27,7 +27,7 @@ const PunctualityDashboard = () => {
   const [delayStats, setDelayStats] = useState([]);
 
   useEffect(() => {
-    fetch('/api/flights?limit=500')
+    fetch('http://127.0.0.1:8000/api/flights?limit=500')
       .then(res => res.json())
       .then(data => {
         setFlights(data);
