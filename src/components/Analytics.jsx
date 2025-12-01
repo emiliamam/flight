@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import styles from './CountryPicker.css';
+import styles from './Analytics.module.css';
 
-const CountryPicker = () => {
+const Analytics = () => {
   const [rules, setRules] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -331,4 +331,4 @@ const CountryPicker = () => {
   );
 };
 
-export default CountryPicker;
+export default Analytics;

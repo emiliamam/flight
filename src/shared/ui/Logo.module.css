@@ -1,0 +1,25 @@
+.logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logoLink {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .logoImage {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+  }
+  
+  .logoTitle {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: white;
+  }
