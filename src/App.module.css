@@ -331,3 +331,26 @@ body {
   height: 100%;
   object-fit: contain;
 }
+.logoInline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logoInline .logoLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.logoInline .logoImage {
+  width: 40px;
+  height: 40px;
+}
+
+.logoInline h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: white;
+}

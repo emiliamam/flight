@@ -16,6 +16,7 @@
     "react-countup": "^4.3.3",
     "react-dom": "^16.13.1",
     "react-leaflet": "^3.2.5",
+    "react-router-dom": "^5.3.0",
     "react-scripts": "3.4.1",
     "recharts": "^3.1.0"
   },
@@ -48,5 +49,14 @@
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^2.5.1",
     "typescript": "^5.8.3"
+  },
+  "_moduleAliases": {
+    "@": "src",
+    "@app": "src/app",
+    "@entities": "src/entities",
+    "@features": "src/features",
+    "@widgets": "src/widgets",
+    "@pages": "src/pages",
+    "@shared": "src/shared"
   }
 }

@@ -13,6 +13,7 @@ import {
 
 import './Dashboard.css';
 
+
 // Регистрируем компоненты Chart.js
 ChartJS.register(
   CategoryScale,
@@ -26,7 +27,6 @@ ChartJS.register(
 
 
 const Dashboard = () => {
-  // Состояния для данных
   const [topAirlines, setTopAirlines] = useState([]);
   const [airlinePunctuality, setAirlinePunctuality] = useState([]);
   const [airports, setAirports] = useState([]);
@@ -35,12 +35,10 @@ const Dashboard = () => {
   const [delayRules, setDelayRules] = useState([]);
   const [flightDirections, setFlightDirections] = useState([]);
   
-  // Состояния для загрузки и фильтров
   const [loading, setLoading] = useState(true);
   const [minFlights, setMinFlights] = useState(0);
   const [activeTab, setActiveTab] = useState('overview');
 
-  // Загрузка данных при монтировании
   useEffect(() => {
     loadAllData();
   }, []);
@@ -48,8 +46,6 @@ const Dashboard = () => {
   const loadAllData = async () => {
     try {
       setLoading(true);
-      
-      // Загружаем данные параллельно
       const [
         topResponse,
         punctualityResponse,
@@ -100,7 +96,6 @@ const Dashboard = () => {
     }
   };
 
-  // Подготовка данных для графиков
   const topAirlinesChartData = {
     labels: topAirlines.map(airline => airline.airline_name),
     datasets: [
@@ -165,7 +160,6 @@ const Dashboard = () => {
     ],
   };
 
-  // Фильтрация данных по количеству рейсов
   const filteredPunctuality = airlinePunctuality.filter(
     item => item['Количество рейсов'] >= minFlights
   );

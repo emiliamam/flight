@@ -9,6 +9,8 @@ const MapComponent = ({ airports = [] }) => {
     if (flights > 500) return 'orange';
     return 'green';
   };
+  console.log(airports, 'airport')
+
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '900px' }}>
