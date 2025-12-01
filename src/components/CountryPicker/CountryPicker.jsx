@@ -15,7 +15,7 @@ const Countries = () => {
   useEffect(() => {
     const fetchRules = async () => {
       try {
-        const response = await axios.get('/api/delay-rules/top');
+        const response = await axios.get('http://127.0.0.1:8000/api/delay-rules/top');
         setRules(response.data);
       } catch (err) {
         setError('Ошибка при получении правил');
