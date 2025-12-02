@@ -104,7 +104,6 @@ const Analytics = () => {
         </div>
       </header>
 
-      {/* Попап с объяснением */}
       {explanationOpen && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>

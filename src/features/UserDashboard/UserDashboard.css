@@ -1,4 +1,5 @@
 .user-dashboard {
+    width: 100%;
     padding: 20px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -14,10 +15,13 @@
   }
   
   .header-content {
+    width: 100%;
+
     text-align: left;
   }
   
   .dashboard-title {
+    text-align: left;
     font-size: 28px;
     color: #2c3e50;
     margin: 0 0 10px 0;
@@ -25,10 +29,10 @@
   }
   
   .dashboard-subtitle {
+    text-align: left;
     color: #666;
     font-size: 16px;
     margin: 0;
-    max-width: 800px;
     margin: 0 auto;
   }
   
@@ -39,7 +43,6 @@
   
   .upload-section {
     display: grid;
-    grid-template-columns: 1fr 1fr;
     gap: 25px;
     margin-bottom: 30px;
   }

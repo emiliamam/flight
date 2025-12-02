@@ -43,7 +43,7 @@ export const AppRouter = ({ data, country, handleCountryChange }) => {
         </Route>
       </Switch>
 
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

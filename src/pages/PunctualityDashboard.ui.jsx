@@ -51,7 +51,6 @@ export const PunctualityDashboard = () => {
     );
   }
 
-  // Расчет показателей
   const punctualityRate = summary.total > 0 
     ? ((summary.onTime / summary.total) * 100).toFixed(1) 
     : '0.0';
@@ -62,7 +61,6 @@ export const PunctualityDashboard = () => {
 
   return (
     <div className={styles.dashboard}>
-      {/* Верхняя панель */}
       <div className={styles.headerPanel}>
         <div className={styles.headerContent}>
           <div className={styles.titleSection}>
@@ -92,10 +90,8 @@ export const PunctualityDashboard = () => {
         </div>
       </div>
 
-      {/* Основное содержимое */}
       <div className={styles.contentArea}>
         
-        {/* Блок ключевых метрик */}
         <div className={styles.metricsSection}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>Оперативные показатели</h2>
@@ -104,7 +100,6 @@ export const PunctualityDashboard = () => {
           
           <StatsOverview stats={summary} />
           
-          {/* Дополнительные метрики */}
           <div className={styles.additionalMetrics}>
             <div className={styles.metricCard}>
               <div className={styles.metricHeader}>
@@ -146,7 +141,6 @@ export const PunctualityDashboard = () => {
           </div>
         </div>
 
-        {/* График */}
         <div className={styles.chartSection}>
           <div className={styles.chartHeader}>
             <div className={styles.chartTitleGroup}>
@@ -183,8 +177,6 @@ export const PunctualityDashboard = () => {
             </div>
           </div>
         </div>
-
-        {/* Нижняя информационная панель */}
         <div className={styles.footerPanel}>
           <div className={styles.statusGrid}>
             <div className={styles.statusItem}>
@@ -201,7 +193,7 @@ export const PunctualityDashboard = () => {
             </div>
             <div className={styles.statusItem}>
               <div className={styles.statusLabel}>Коэффициент выполнения</div>
-              <div className={styles.statusValue}>{((summary.onTime + summary.delayed) / summary.total * 100).toFixed(1)}%</div>
+              <div className={styles.statusValue}>{((summary.onTime + summary.delayed) / (summary.total * 100+1)).toFixed(1)}%</div>
             </div>
           </div>
           
