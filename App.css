@@ -1,0 +1,32 @@
+/* App.css - ПРОСТОЙ И РАБОЧИЙ ФАЙЛ */
+html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+  
+  .app-root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+  }
+  
+  .app-header {
+    flex-shrink: 0;
+  }
+  
+  .app-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0; 
+  }
+  
+  .app-footer {
+    flex-shrink: 0;
+    margin-top: auto;
+  }
+
+  

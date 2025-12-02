@@ -32,11 +32,14 @@ class App extends React.Component {
     return (
       <Router>
         <div className={styles.container}>
-          <AppRouter 
-            data={data} 
-            country={country}
-            handleCountryChange={this.handleCountryChange}
-          />
+          {/* ВАЖНО: Добавьте этот div с flex: 1 */}
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+            <AppRouter 
+              data={data} 
+              country={country}
+              handleCountryChange={this.handleCountryChange}
+            />
+          </div>
         </div>
       </Router>
     );

@@ -10,10 +10,9 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-
+import MapComponent from '../MapComponent/MapComponent'; 
 import './Dashboard.css';
-
-
+import appStyles from '../../App.module.css';
 // Регистрируем компоненты Chart.js
 ChartJS.register(
   CategoryScale,
@@ -24,7 +23,6 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
 
 const Dashboard = () => {
   const [topAirlines, setTopAirlines] = useState([]);
@@ -184,7 +182,10 @@ const Dashboard = () => {
     return <div className="loading">Загрузка данных...</div>;
   }
 
+
+
   return (
+    <div className={`${appStyles.container} dashboard-container`}>
     <div className="dashboard">
       <header className="dashboard-header">
         <h1>Аналитика пунктуальности авиакомпаний</h1>
@@ -216,38 +217,85 @@ const Dashboard = () => {
         </button>
       </nav>
 
-      {activeTab === 'overview' && (
-        <div className="overview-tab">
-          <div className="cards-grid">
-            <div className="card">
-              <h3>Распределение задержек</h3>
-              <div className="chart-container">
-                <Doughnut
-                  data={delayHistogramChartData}
-                  options={{
-                    responsive: true,
-                    plugins: {
-                      legend: { position: 'bottom' },
-                    },
-                  }}
-                />
+      <div className={`${appStyles.mainContent} dashboard-content`}>
+        <div className="tab-content">
+          {activeTab === 'overview' && (
+            <div className="overview-tab">
+              <div className="cards-grid">
+                <div className="card">
+                  <h3>Распределение задержек</h3>
+                  <div className="chart-container">
+                    <Doughnut
+                      data={delayHistogramChartData}
+                      options={{
+                        responsive: true,
+                        plugins: {
+                          legend: { position: 'bottom' },
+                        },
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div className="card">
+                  <h3>Топ-10 по отменам рейсов</h3>
+                  <div className="chart-container">
+                    <Bar
+                      data={cancellationsChartData}
+                      options={{
+                        responsive: true,
+                        plugins: {
+                          legend: { display: false },
+                        },
+                        scales: {
+                          x: {
+                            ticks: {
+                              maxRotation: 45,
+                              minRotation: 45,
+                            },
+                          },
+                        },
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
+          )}
 
-            <div className="card">
-              <h3>Топ-10 по отменам рейсов</h3>
-              <div className="chart-container">
+          {activeTab === 'airlines' && (
+            <div className="airlines-tab">
+              <div className="filter-controls">
+                <label>
+                  Минимальное количество рейсов для отображения:
+                  <input
+                    type="range"
+                    min="0"
+                    max="5000"
+                    value={minFlights}
+                    onChange={(e) => setMinFlights(Number(e.target.value))}
+                  />
+                  <span>{minFlights}</span>
+                </label>
+              </div>
+
+              <div className="chart-container large">
                 <Bar
-                  data={cancellationsChartData}
+                  data={punctualityChartData}
                   options={{
                     responsive: true,
                     plugins: {
-                      legend: { display: false },
+                      legend: { position: 'top' },
                     },
                     scales: {
+                      y: {
+                        min: 0,
+                        max: 100,
+                        title: { display: true, text: 'Пунктуальность (%)' },
+                      },
                       x: {
                         ticks: {
-                          maxRotation: 45,
+                          maxRotation: 90,
                           minRotation: 45,
                         },
                       },
@@ -255,117 +303,80 @@ const Dashboard = () => {
                   }}
                 />
               </div>
+
+              <div className="table-container">
+                <h3>Детальная информация по авиакомпаниям</h3>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Авиакомпания</th>
+                      <th>Код</th>
+                      <th>Количество рейсов</th>
+                      <th>Отмены</th>
+                      <th>Пунктуальность отправления (%)</th>
+                      <th>Пунктуальность прибытия (%)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredPunctuality.map((item, i) => (
+                      <tr key={i}>
+                        <td>{item.Авиакомпания}</td>
+                        <td>{item.Код}</td>
+                        <td>{item['Количество рейсов']}</td>
+                        <td>{item.Отмены}</td>
+                        <td>{item.Отправление.toFixed(1)}</td>
+                        <td>{item.Прибытие.toFixed(1)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
+          )}
+
+          {activeTab === 'airports' && (
+            <div className="airports-tab">
+              <div className="map-wrapper">
+                <h3>Карта аэропортов</h3>
+                <MapComponent airports={airports} />
+              </div>
+              
+              <div className="table-container">
+                <h3>Информация по аэропортам</h3>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>IATA код</th>
+                      <th>Название аэропорта</th>
+                      <th>Долгота</th>
+                      <th>Широта</th>
+                      <th>Кол-во вылетов</th>
+                      <th>Кол-во прилетов</th>
+                      <th>Всего рейсов</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {airports.map((airport, i) => (
+                      <tr key={i}>
+                        <td>{airport['IATA код']}</td>
+                        <td>{airport['Название аэропорта']}</td>
+                        <td>{airport['Долгота']?.toFixed(4)}</td>
+                        <td>{airport['Широта']?.toFixed(4)}</td>
+                        <td>{airport['Кол-во вылетов']}</td>
+                        <td>{airport['Кол-во прилетов']}</td>
+                        <td>
+                          {(airport['Кол-во вылетов'] || 0) + (airport['Кол-во прилетов'] || 0)}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
           </div>
         </div>
-      )}
-
-      {activeTab === 'airlines' && (
-        <div className="airlines-tab">
-          <div className="filter-controls">
-            <label>
-              Минимальное количество рейсов для отображения:
-              <input
-                type="range"
-                min="0"
-                max="5000"
-                value={minFlights}
-                onChange={(e) => setMinFlights(Number(e.target.value))}
-              />
-              <span>{minFlights}</span>
-            </label>
-          </div>
-
-          <div className="chart-container large">
-            <Bar
-              data={punctualityChartData}
-              options={{
-                responsive: true,
-                plugins: {
-                  legend: { position: 'top' },
-                },
-                scales: {
-                  y: {
-                    min: 0,
-                    max: 100,
-                    title: { display: true, text: 'Пунктуальность (%)' },
-                  },
-                  x: {
-                    ticks: {
-                      maxRotation: 90,
-                      minRotation: 45,
-                    },
-                  },
-                },
-              }}
-            />
-          </div>
-
-          <div className="table-container">
-            <h3>Детальная информация по авиакомпаниям</h3>
-            <table>
-              <thead>
-                <tr>
-                  <th>Авиакомпания</th>
-                  <th>Код</th>
-                  <th>Количество рейсов</th>
-                  <th>Отмены</th>
-                  <th>Пунктуальность отправления (%)</th>
-                  <th>Пунктуальность прибытия (%)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredPunctuality.map((item, i) => (
-                  <tr key={i}>
-                    <td>{item.Авиакомпания}</td>
-                    <td>{item.Код}</td>
-                    <td>{item['Количество рейсов']}</td>
-                    <td>{item.Отмены}</td>
-                    <td>{item.Отправление.toFixed(1)}</td>
-                    <td>{item.Прибытие.toFixed(1)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
-
-      {activeTab === 'airports' && (
-        <div className="airports-tab">
-          <div className="table-container">
-            <h3>Информация по аэропортам</h3>
-            <table>
-              <thead>
-                <tr>
-                  <th>IATA код</th>
-                  <th>Название аэропорта</th>
-                  <th>Долгота</th>
-                  <th>Широта</th>
-                  <th>Кол-во вылетов</th>
-                  <th>Кол-во прилетов</th>
-                  <th>Всего рейсов</th>
-                </tr>
-              </thead>
-              <tbody>
-                {airports.map((airport, i) => (
-                  <tr key={i}>
-                    <td>{airport['IATA код']}</td>
-                    <td>{airport['Название аэропорта']}</td>
-                    <td>{airport['Долгота']?.toFixed(4)}</td>
-                    <td>{airport['Широта']?.toFixed(4)}</td>
-                    <td>{airport['Кол-во вылетов']}</td>
-                    <td>{airport['Кол-во прилетов']}</td>
-                    <td>
-                      {(airport['Кол-во вылетов'] || 0) + (airport['Кол-во прилетов'] || 0)}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 };
