@@ -6,6 +6,8 @@ import { StatisticsPage }  from './pages/StatisticsPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
 import { MapPage }  from './pages/MapPage';
 import { Footer } from './widgets/ui/Footer/Footer';
+import UserDashboard from './features/UserDashboard/UserDashboard';
+import { AuthPage } from './pages/AuthPage';
 
 export const AppRouter = ({ data, country, handleCountryChange }) => {
   return (
@@ -28,7 +30,12 @@ export const AppRouter = ({ data, country, handleCountryChange }) => {
         <Route path="/map">
           <MapPage airports={data} />
         </Route>
-        
+        <Route path="/user-dashboard">
+          <UserDashboard handleCountryChange={handleCountryChange} />
+        </Route>
+         <Route path="/login">
+          <AuthPage />
+        </Route>
         <Route path="*">
           <div style={{ padding: '40px', textAlign: 'center' }}>
             <h2>Страница не найдена</h2>
